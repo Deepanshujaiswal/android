@@ -1,0 +1,84 @@
+mAuth.createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                    Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+
+                // ...
+            }
+        });
+
+------------NEW USER----------------------------
+
+mAuth.signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                    Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+
+                // ...
+            }
+        });
+
+----------------------EXIXTING USER---------------------------
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                number.getText().toString(),//phone number of user
+                60, TimeUnit.SECONDS,this,  //time in which he need to verify
+                                            //current class  
+                mcallback);                 //function which may be called either on failur or sucess
+
+  private  PhoneAuthProvider.OnVerificationStateChangedCallbacks mcallback;//CREATING OBJECT FOR FUNCTION CALLS
+
+------------------------PHONE NUMBER VERIFICATION----------------------
+
+// Write a message to the database
+FirebaseDatabase database = FirebaseDatabase.getInstance();
+DatabaseReference myRef = database.getReference("message");
+
+myRef.setValue("Hello, World!");
+
+----------------WriteToDataBase-------------
+
+// Read from the database
+myRef.addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        // This method is called once with the initial value and again
+        // whenever data at this location is updated.
+        String value = dataSnapshot.getValue(String.class);
+        Log.d(TAG, "Value is: " + value);
+    }
+
+    @Override
+    public void onCancelled(DatabaseError error) {
+        // Failed to read value
+        Log.w(TAG, "Failed to read value.", error.toException());
+    }
+});
+
+----------------------------ReadToDataBase-------------------------
+        
+
+
